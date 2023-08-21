@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Trang chủ</title>
+	<link rel="stylesheet" type="text/css" href="/css/employee.css">
+	<style>
+		.checkbox-cell,
+		.price {
+			text-align: center;
+		}
+
+		.checkbox-cell input[type="checkbox"] {
+			transform: scale(1.5);
+		}
+
+		.client {
+			max-width: 760px;
+		}
+
+		.quantity-input {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+		}
+
+		.quantity-input input {
+			margin-right: 10px;
+			/* Khoảng cách giữa input và nút */
+		}
+
+		.quantity-buttons {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.contentbill {
+			width: 400px;
+			border: 2px solid black;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+			/* Đổ bóng */
+			padding: 10px;
+			margin: auto;
+		}
+
+		.a1 {
+			margin-bottom: 8px;
+		}
+
+		hr {
+			border: none;
+			border-top: 2px dashed black;
+			/* Kiểu kẻ nét đứt tùy chỉnh */
+			margin: 20px 0;
+			/* Khoảng cách đến các phần tử khác */
+		}
+
+		.product {
+			margin-left: 80px;
+		}
+		.button-container {
+			text-align: center;
+			/* Căn giữa nút trong thẻ div */
+		}
+
+		.button {
+			padding: 10px 20px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 16px;
+			margin-right: 30px;
+			width: 140px;
+			/* Khoảng cách giữa các nút */
+		}
+
+		.button2 {
+			background-color: #f44336;
+			/* Màu nền cho nút thứ hai */
+		}
+
+		.button:hover{
+			background-color: rgb(54, 126, 57);
+			/* Màu nền hover */
+		}
+		.button2:hover{
+			background-color: rgb(191, 24, 11);
+		}
+		.button:active {
+			background-color: #3e8e41;
+			/* Màu nền khi được nhấn */
+		}
+		.button2:active{
+			background-color: rgb(243, 63, 48);
+		}
+		.button:focus,
+		.button2:focus {
+			outline: none;
+			/* Loại bỏ viền khi focus */
+		}
+	</style>
+</head>
+
+<body>
+	<div class="logo">
+		<div><img src="/img/logo.png" style="margin-left:30px;width:60px;height: 60px;margin-top:20px"></div>
+		<div style="letter-spacing : 3px;font-size : 30px;color: white;margin: auto;">TRANG CHỦ WEBSITE QUẢN LÝ CỬA HÀNG
+			COFFEE</div>
+	</div>
+
+	<div class="info">
+		<div class="nameadmin">
+			<div style=" display: inline-flex; margin-top:5px">
+				<div style="font-size: 15px;">Xin chào :&nbsp;</div>
+				<strong th:text="${fullnamemanager}"></strong>
+
+			</div>
+			<div style="margin-top:8px" id="current-date"></div>
+		</div>
+		<div>
+
+			<a class="avata" th:href="login"><button class="btnlogout">Đăng xuất</button></a>
+		</div>
+	</div>
+	<h2> Hóa đơn thanh toán</h2>
+	<div class="contentbill">
+		<div>
+			<div>
+				<div class="a1">Tên khách hàng : <span th:text="${nameclient}"></span><br /></div>
+				<div class="a1">SDT : <span th:text="${telephone}"></span><br /></div>
+				<div class="a1">Sản phẩm :<span></span><br /></div>
+
+			</div>
+		</div>
+		<div class="product" th:each="coffeestat : ${coffeestats}" th:if="${coffeestat.getQuantity() != 0}">
+			<span th:text="${coffeestat.getNamecoffee()}"></span>
+			<span>(SL : </span>
+			<span th:text="${coffeestat.getQuantity()}"></span>
+			<span>× </span>
+			<span th:text="${coffeestat.getPrice()}"></span>
+			<span> )</span><br /><br />
+		</div>
+		<hr>
+		<div class="a1">
+			Thành tiền :
+			<span style="float : right" th:text="${payment}"></span></div>
+	</div><br />
+	<div class="button-container" style="display: inline-flex;margin-left:38%">
+		<form action="/neworder" method="post">
+		<button type="submit" class="button">Thanh toán</button>
+		</form>
+		<a href="/choosecoffee"><button onclick="return confirmDelete()" class="button button2">Hủy</button></a>
+	</div>
+	<script>
+		function confirmDelete() {
+        return confirm("Xác nhận xóa hóa đơn này");
+    }
+		// Lấy ngày hiện tại
+		var today = new Date();
+
+		// Lấy ngày, tháng, năm
+		var day = today.getDate();
+		var month = today.getMonth() + 1; // Tháng bắt đầu từ 0
+		var year = today.getFullYear();
+
+		// Đưa giá trị vào phần tử HTML
+		document.getElementById('current-date').textContent = day + '/' + month + '/' + year;
+	</script>
+
+</body>
+
+</html>

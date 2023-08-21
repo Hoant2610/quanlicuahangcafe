@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Trang Quản lý Tài Khoản</title>
+	<link rel="stylesheet" type="text/css" href="/css/manager.css">
+	<style>
+		.c1 {
+			min-width: 150px;
+			margin-bottom: 15px;
+			;
+		}
+
+		input {
+			min-width: 400px;
+			;
+		}
+
+		.multiline-input {
+			display: block;
+			word-break: break-all;
+		}
+		textarea{
+			min-width: 400px;
+		}
+		.custom-button {
+			margin-left: 300px;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 150px;
+  }
+
+  .custom-button:hover {
+    background-color: #45a049;
+  }
+	</style>
+</head>
+
+<body>
+	<div class="logo">
+		<div><img src="/img/logo.png" style="margin-left:30px;width:60px;height: 60px;margin-top:20px"></div>
+		<div style="letter-spacing : 3px;font-size : 30px;color: white;margin: auto;">TRANG CHỦ WEBSITE QUẢN LÝ CỬA HÀNG
+			COFFEE</div>
+	</div>
+
+	<div class="info">
+		<div class="nameadmin">
+			<div style=" display: inline-flex; margin-top:5px">
+				<div style="font-size: 15px;">Xin chào :&nbsp;</div>
+				<strong th:text="${fullnamemanager}"></strong>
+
+			</div>
+			<div style="margin-top:8px" id="current-date"></div>
+		</div>
+		<div>
+
+			<a class="avata" th:href="login"><button class="btnlogout">Đăng xuất</button></a>
+		</div>
+	</div>
+
+	<div class="menu">
+		<a th:href="@{/manager}"><button class="btn">Trang chủ</button></a>
+		<a th:href="@{/manage_account}"><button class="btn">Quản lý tài khoản</button></a>
+		<a th:href="@{/manage_employee}"><button class="btn1">Quản lý nhân viên</button></a>
+		<a th:href="@{/manage_coffee}"><button class="btn">Quản lý sản phẩm</button></a>
+		<a th:href="@{/stat}"><button class="btn">Báo cáo thống kê</button></a>
+	</div>
+	<hr />
+
+	<h2>Điền thông tin nhân viên</h2>
+
+
+<form th:action="@{/addemployee}" method="post">
+		<div style="margin-left: 150px;">
+			
+			<div style="margin-bottom : 10px;display: inline-flex;">
+				<div class="c1">Tên nhân viên :&nbsp;</div>
+				<textarea required name="fullname"  class="multiline-input" type="text" ></textarea>
+			</div><br />
+			
+			<div style="margin-bottom : 10px;display: inline-flex;">
+				<div class="c1">Số điện thoại :&nbsp;</div>
+				<textarea required name="telephone" class="multiline-input" type="text" ></textarea>
+			</div><br />
+			
+			<div style="margin-bottom : 10px;display: inline-flex;">
+				<div class="c1">Địa chỉ :&nbsp;</div>
+				<textarea required name="address" class="multiline-input" type="text" ></textarea>
+			</div><br/>
+			
+			<div style="margin-bottom : 10px;display: inline-flex;">
+				<div class="c1">Chức vụ :&nbsp;</div>
+				<textarea required name="role" class="multiline-input" type="text" ></textarea>
+			</div><br/>
+		</div><br/>
+				<button type="submit" class="custom-button">Thêm</button>
+				
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<script>
+		// Lấy ngày hiện tại
+		var today = new Date();
+
+		// Lấy ngày, tháng, năm
+		var day = today.getDate();
+		var month = today.getMonth() + 1; // Tháng bắt đầu từ 0
+		var year = today.getFullYear();
+
+		// Đưa giá trị vào phần tử HTML
+		document.getElementById('current-date').textContent = day + '/' + month + '/' + year;
+	</script>
+
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 60%;
+			margin-left: 100px;
+		}
+
+		th,
+		td {
+			border: 1px solid black;
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: lightgray;
+		}
+	</style>
+</body>
+
+</html>

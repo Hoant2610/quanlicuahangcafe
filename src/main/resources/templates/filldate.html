@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Trang Quản lý Sán Phẩm</title>
+	<link rel="stylesheet" type="text/css" href="/css/manager.css">
+	<style>
+		.c1 {
+			min-width: 150px;
+			margin-bottom: 15px;
+			;
+		}
+
+		input {
+			min-width: 400px;
+			;
+		}
+
+		.multiline-input {
+			display: block;
+			word-break: break-all;
+		}
+
+		textarea {
+			min-width: 400px;
+		}
+
+		input {
+			max-width: 50px;
+		}
+
+		.error-message {
+			color: red;
+		}
+
+		form {
+			position: relative;
+			margin: 50px auto;
+			width: 380px;
+			height: auto;
+		}
+
+		input {
+			padding: 16px;
+			border-radius: 7px;
+			border: 0px;
+			background: rgba(255, 255, 255, .2);
+			display: block;
+			margin: 15px;
+			width: 300px;
+			color: white;
+			font-size: 18px;
+			height: 24px;
+		}
+
+		input {
+			outline-color: rgba(0, 0, 0, 0);
+			background: rgba(255, 255, 255, .95);
+			color: #e74c3c;
+		}
+		.custom-button {
+			margin-left: 300px;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 150px;
+  }
+
+  .custom-button:hover {
+    background-color: #45a049;
+  }
+	</style>
+</head>
+
+<body>
+	<div class="logo">
+		<div><img src="/img/logo.png" style="margin-left:30px;width:60px;height: 60px;margin-top:20px"></div>
+		<div style="letter-spacing : 3px;font-size : 30px;color: white;margin: auto;">TRANG CHỦ WEBSITE QUẢN LÝ CỬA HÀNG
+			COFFEE</div>
+	</div>
+
+	<div class="info">
+		<div class="nameadmin">
+			<div style=" display: inline-flex; margin-top:5px">
+				<div style="font-size: 15px;">Xin chào :&nbsp;</div>
+				<strong th:text="${fullnamemanager}"></strong>
+
+			</div>
+			<div style="margin-top:8px" id="current-date"></div>
+		</div>
+		<div>
+
+			<a class="avata" th:href="login"><button class="btnlogout">Đăng xuất</button></a>
+		</div>
+	</div>
+
+	<div class="menu">
+		<a th:href="@{/manager}"><button class="btn">Trang chủ</button></a>
+		<a th:href="@{/manage_account}"><button class="btn">Quản lý tài khoản</button></a>
+		<a th:href="@{/manage_employee}"><button class="btn">Quản lý nhân viên</button></a>
+		<a th:href="@{/manage_coffee}"><button class="btn">Quản lý sản phẩm</button></a>
+		<a th:href="@{/stat}"><button class="btn1">Báo cáo thống kê</button></a>
+	</div>
+	<hr />
+
+	<h2>Thống kê doanh thu các loại coffee</h2>
+	<div>
+		<form action="/coffeestat" method="get" onsubmit="return checkDateInputs()">
+			<p>Nhập ngày bắt đầu :</p>
+			<input type="date" name="sd" id="startDate" /><br/>
+			<p>Nhập ngày kết thúc :</p>
+			<input type="date" name="ed" id="endDate" /><br/>
+			<button class="custom-button" type="submit">Xem thống kê</button>
+		</form>
+	</div>
+
+
+	<!--<tr th:each="accountstat : ${accountstats}">
+			<td th:text="${accountstat.getId_account()}"></td>
+			<td th:text="${accountstat.getUsername()}"></td>
+			<td th:text="${accountstat.getPassword()}"></td>
+			<td th:text="${accountstat.getRole()}"></td>
+			<td th:text="${accountstat.getFullname()}"></td>
+        <td>
+            <a th:href="@{/editaccount/{id}(id=${accountstat.getId_account()})}">
+				<button class="edit-button">Sửa</button>
+				</a>
+            <a th:href="@{/deleteaccount/{id}(id=${accountstat.getId_account()})}">
+				<button class="delete-button">Xóa</button>
+				</a>
+        </td>
+		</tr>-->
+	</table>
+
+
+
+	<script>
+		function checkDateInputs() {
+			const startDateInput = document.querySelector("#startDate");
+			const endDateInput = document.querySelector("#endDate");
+			const startDate = new Date(startDateInput.value);
+			const endDate = new Date(endDateInput.value);
+			var sd = document.getElementById('startDate').value;
+			var ed = document.getElementById('endDate').value;
+			if (sd == "" || ed == "") {
+				alert("Vui lòng nhập đầy đủ thông tin ngày bắt đầu và ngày kết thúc!");
+				return false; // Ngăn form submit nếu chưa nhập đầy đủ thông tin
+			}
+			if (startDate > endDate) {
+				alert("Ngày bắt đầu phải nhỏ hơn ngày kết thúc");
+				return false;
+			}
+			return true;
+		}
+		function validateNumber(textarea) {
+			var value = textarea.value.trim();
+			var isValid = !isNaN(value) && parseFloat(value) > 0;
+
+			if (isValid) {
+				textarea.setCustomValidity('');
+				document.getElementById('price-error').style.display = 'none';
+			} else {
+				textarea.setCustomValidity('Vui lòng nhập giá trị là số dương');
+				document.getElementById('price-error').style.display = 'block';
+			}
+		}
+
+
+		// Lấy ngày hiện tại
+		var today = new Date();
+
+		// Lấy ngày, tháng, năm
+		var day = today.getDate();
+		var month = today.getMonth() + 1; // Tháng bắt đầu từ 0
+		var year = today.getFullYear();
+
+		// Đưa giá trị vào phần tử HTML
+		document.getElementById('current-date').textContent = day + '/' + month + '/' + year;
+	</script>
+
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 60%;
+			margin-left: 100px;
+		}
+
+		th,
+		td {
+			border: 1px solid black;
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: lightgray;
+		}
+	</style>
+</body>
+
+</html>

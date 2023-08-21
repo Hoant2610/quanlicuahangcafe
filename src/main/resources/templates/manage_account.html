@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Trang Quản lý Tài Khoản</title>
+	<link rel="stylesheet" type="text/css" href="/css/manager.css">
+
+</head>
+
+<body>
+	<div class="logo">
+		<div><img src="/img/logo.png" style="margin-left:30px;width:60px;height: 60px;margin-top:20px"></div>
+		<div style="letter-spacing : 3px;font-size : 30px;color: white;margin: auto;">TRANG CHỦ WEBSITE QUẢN LÝ CỬA HÀNG
+			COFFEE</div>
+	</div>
+
+	<div class="info">
+		<div class="nameadmin">
+			<div style=" display: inline-flex; margin-top:5px">
+				<div style="font-size: 15px;">Xin chào :&nbsp;</div>
+				<strong th:text="${fullnamemanager}"></strong>
+
+			</div>
+			<div style="margin-top:8px" id="current-date"></div>
+		</div>
+		<div>
+
+			<a class="avata" th:href="login"><button class="btnlogout">Đăng xuất</button></a>
+		</div>
+	</div>
+
+	<div class="menu">
+		<a th:href="manager"><button class="btn">Trang chủ</button></a>
+		<a th:href="manage_account"><button  class="btn1">Quản lý tài khoản</button></a>
+		<a th:href="manage_employee"><button class="btn">Quản lý nhân viên</button></a>
+		<a th:href="manage_coffee"><button class="btn">Quản lý sản phẩm</button></a>
+		<a th:href="stat"><button class="btn">Báo cáo thống kê</button></a>
+	</div>
+	<hr />
+
+	<h2>Quản lý thông tin tài khoản</h2>
+
+		<table style="margin-left:200px">
+			<tr>
+				<th>ID</th>
+				<th>Tên đăng nhập</th>
+				<th>Mật khẩu</th>
+				<th>Quyền</th>
+				<th>Người sở hữu</th>
+				<th>Thao tác</th>
+			</tr>
+
+			<tr th:each="accountstat : ${accountstats}">
+				<td th:text="${accountstat.getId_account()}"></td>
+				<td th:text="${accountstat.getUsername()}"></td>
+				<td th:text="${accountstat.getPassword()}"></td>
+				<td th:text="${accountstat.getRole()}"></td>
+				<td th:text="${accountstat.getFullname()}"></td>
+				<td>
+					<a th:href="@{/editaccount/{id}(id=${accountstat.getId_account()})}">
+						<button class="edit-button">Sửa</button>
+					</a>
+					<a th:href="@{/deleteaccount/{id}(id=${accountstat.getId_account()})}">
+						<button class="delete-button">Xóa</button>
+					</a>
+				</td>
+			</tr>
+		</table>
+	<br /><br />
+	<a style="margin-left:100px" th:href="addaccount"><button class="add-button">Thêm</button></a>
+
+	<script>
+		// Lấy ngày hiện tại
+		var today = new Date();
+
+		// Lấy ngày, tháng, năm
+		var day = today.getDate();
+		var month = today.getMonth() + 1; // Tháng bắt đầu từ 0
+		var year = today.getFullYear();
+
+		// Đưa giá trị vào phần tử HTML
+		document.getElementById('current-date').textContent = day + '/' + month + '/' + year;
+	</script>
+
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 60%;
+			margin-left: 100px;
+		}
+
+		th,
+		td {
+			border: 1px solid black;
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: lightgray;
+		}
+		
+	</style>
+</body>
+
+</html>

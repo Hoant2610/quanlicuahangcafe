@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Trang Quản lý Sán Phẩm</title>
+	<link rel="stylesheet" type="text/css" href="/css/manager.css">
+
+</head>
+
+<body>
+	<div class="logo">
+		<div><img src="/img/logo.png" style="margin-left:30px;width:60px;height: 60px;margin-top:20px"></div>
+		<div style="letter-spacing : 3px;font-size : 30px;color: white;margin: auto;">TRANG CHỦ WEBSITE QUẢN LÝ CỬA HÀNG
+			COFFEE</div>
+	</div>
+
+	<div class="info">
+		<div class="nameadmin">
+			<div style=" display: inline-flex; margin-top:5px">
+				<div style="font-size: 15px;">Xin chào :&nbsp;</div>
+				<strong th:text="${fullnamemanager}"></strong>
+
+			</div>
+			<div style="margin-top:8px" id="current-date"></div>
+		</div>
+		<div>
+
+			<a class="avata" th:href="login"><button class="btnlogout">Đăng xuất</button></a>
+		</div>
+	</div>
+
+	<div class="menu">
+		<a th:href="manager"><button class="btn">Trang chủ</button></a>
+		<a th:href="manage_account"><button class="btn">Quản lý tài khoản</button></a>
+		<a th:href="manage_employee"><button class="btn">Quản lý nhân viên</button></a>
+		<a th:href="manage_coffee"><button class="btn1">Quản lý sản phẩm</button></a>
+		<a th:href="stat"><button class="btn">Báo cáo thống kê</button></a>
+	</div>
+	<hr />
+
+	<h2>Quản lý thông tin sản phẩm coffee</h2>
+
+	<table style="margin-left:200px;min-width: 70%;">
+		<tr>
+			<th>ID</th>
+			<th>Tên sản phẩm</th>
+			<th>Giá</th>
+			<th>Mô tả</th>
+			<th style="min-width: 140px;" >Thao tác </th>
+		</tr>
+
+		<tr th:each="coffeestat : ${coffeestats}">
+			<td th:text="${coffeestat.getId_coffee()}"></td>
+			<td th:text="${coffeestat.getNamecoffee()}"></td>
+			<td th:text="${coffeestat.getPrice()}"></td>
+			<td th:text="${coffeestat.getDescribe()}"></td>
+				
+        <td>
+            <a th:href="@{/editcoffee/{id}(id=${coffeestat.getId_coffee()})}">
+				<button class="edit-button">Sửa</button>
+				</a>
+            <a th:href="@{/deletecoffee/{id}(id=${coffeestat.getId_coffee()})}">
+				<button class="delete-button">Xóa</button>
+				</a>
+        </td>
+		</tr>
+	</table><br/><br/>
+<a style="margin-left:100px" th:href="addcoffee"><button class="add-button">Thêm</button></a>
+
+	<script>
+		// Lấy ngày hiện tại
+		var today = new Date();
+
+		// Lấy ngày, tháng, năm
+		var day = today.getDate();
+		var month = today.getMonth() + 1; // Tháng bắt đầu từ 0
+		var year = today.getFullYear();
+
+		// Đưa giá trị vào phần tử HTML
+		document.getElementById('current-date').textContent = day + '/' + month + '/' + year;
+	</script>
+
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 60%;
+			margin-left: 100px;
+		}
+
+		th,
+		td {
+			border: 1px solid black;
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: lightgray;
+		}
+	</style>
+</body>
+
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Trang chủ</title>
+	<link rel="stylesheet" type="text/css" href="/css/employee.css">
+	<style>
+		.checkbox-cell,
+		.price {
+			text-align: center;
+		}
+
+		.checkbox-cell input[type="checkbox"] {
+			transform: scale(1.5);
+		}
+
+		.client {
+			max-width: 760px;
+		}
+
+		.quantity-input {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+		}
+
+		.quantity-input input {
+			margin-right: 10px;
+			/* Khoảng cách giữa input và nút */
+		}
+
+		.quantity-buttons {
+			display: flex;
+			flex-direction: column;
+		}
+		.custom-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 150px;
+  }
+
+  .custom-button:hover {
+    background-color: #45a049;
+  }
+	</style>
+</head>
+
+<body>
+	<div class="logo">
+		<div><img src="/img/logo.png" style="margin-left:30px;width:60px;height: 60px;margin-top:20px"></div>
+		<div style="letter-spacing : 3px;font-size : 30px;color: white;margin: auto;">TRANG CHỦ WEBSITE QUẢN LÝ CỬA HÀNG
+			COFFEE</div>
+	</div>
+
+	<div class="info">
+		<div class="nameadmin">
+			<div style=" display: inline-flex; margin-top:5px">
+				<div style="font-size: 15px;">Xin chào :&nbsp;</div>
+				<strong th:text="${fullnamemanager}"></strong>
+
+			</div>
+			<div style="margin-top:8px" id="current-date"></div>
+		</div>
+		<div>
+
+			<a class="avata" th:href="login"><button class="btnlogout">Đăng xuất</button></a>
+		</div>
+	</div>
+
+	<form action="/neworder" method="get" onsubmit="return validateQuantity()">
+		<h2>Thông tin khách hàng</h2>
+		<table style="width: 760px;margin-left:250px;border-collapse: collapse;">
+			<tr>
+				<th class="price">Tên khách hàng</th>
+				<th class="price">Số điện thoại</th>
+			</tr>
+			<tr>
+				<td><textarea required name="nameclient" type="text"></textarea></td>
+				<td><textarea name="telephone" type="text"></textarea></td>
+			</tr>
+		</table>
+		<br />
+		<h2>Order coffee</h2>
+		<table style="width: 600px;margin-left:325px;border-collapse: collapse;">
+			<tr>
+				<!--<th class="price">ID</th>-->
+				<th class="price">Tên loại coffee</th>
+				<th class="price">Giá</th>
+				<th style="width: 50px;" class="price">Số lượng</th>
+			</tr>
+			<tr th:each="coffee : ${coffees}">
+				<!--<td class="price" th:text="${coffee.getId_coffee()}"></td>-->
+				<td th:text="${coffee.getNamecoffee()}"></td>
+				<td class="price" th:text="${coffee.getPrice()}"></td>
+				<td class="price">
+					<div class="quantity-input">
+						<input type="text" id="quantity" th:name="quantity" value="0">
+						<button type="button" class="quantity-button" onclick="changeQuantity(this, -1)">-</button>
+						<button type="button" class="quantity-button" onclick="changeQuantity(this, 1)">+</button>
+					</div>
+				</td>
+			</tr>
+		</table><br />
+		<div style="display: inline-flex;">
+			<div><input class="custom-button"  style="margin-left: 700px;" type="submit" value="Tạo hóa đơn" /></div>
+		</div>
+
+	</form>
+			<br />
+	<div><a th:href="@{/employee}"><button class="custom-button" onsubmit="return true"  style="width:90px;margin-left: 700px;">Quay lại</button></a></div>
+	<script>
+
+		function validateQuantity() {
+			var telephoneInput = document.getElementsByName('telephone')[0];
+			var telephoneValue = telephoneInput.value.trim();
+			// Lấy tất cả các ô số lượng
+			var quantityInputs = document.getElementsByName('quantity');
+			// Kiểm tra nếu tất cả các ô số lượng có giá trị là 0
+			var allZero = true;
+
+			if (telephoneValue !== '') {
+				if (!(/^\d+$/.test(telephoneValue))) {
+					alert("Sai định dạng số điện thoại. Số điện thoại chỉ gồm các số");
+					return false; // Ngăn form được gửi đi
+				}
+			}
+						for (var i = 0; i < quantityInputs.length; i++) {
+				if (parseInt(quantityInputs[i].value) !== 0) {
+					allZero = false;
+					break;
+				}
+			}
+
+			// Hiển thị thông báo nếu tất cả các ô số lượng là 0
+			if (allZero) {
+				alert("Chưa có loại đồ uống nào được chọn");
+				return false; // Ngăn form được gửi đi
+			}
+
+			return true; // Cho phép form được gửi đi
+		}
+		function changeQuantity(button, increment) {
+			var input = button.parentNode.querySelector("input");
+			var value = parseInt(input.value) + increment;
+			if (value >= 0) {
+				input.value = value;
+			}
+		}
+
+
+		// Lấy ngày hiện tại
+		var today = new Date();
+
+		// Lấy ngày, tháng, năm
+		var day = today.getDate();
+		var month = today.getMonth() + 1; // Tháng bắt đầu từ 0
+		var year = today.getFullYear();
+
+		// Đưa giá trị vào phần tử HTML
+		document.getElementById('current-date').textContent = day + '/' + month + '/' + year;
+	</script>
+
+</body>
+
+</html>

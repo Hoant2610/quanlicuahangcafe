@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Trang Quản lý Sán Phẩm</title>
+	<link rel="stylesheet" type="text/css" href="/css/manager.css">
+	<style>
+		.c1 {
+			min-width: 150px;
+			margin-bottom: 15px;
+			;
+		}
+
+		input {
+			min-width: 400px;
+			;
+		}
+
+		.multiline-input {
+			display: block;
+			word-break: break-all;
+		}
+
+		textarea {
+			min-width: 400px;
+		}
+
+		input {
+			max-width: 50px;
+		}
+
+		span {
+			font-style: italic;
+		}
+		span{
+			font-style: italic;
+		}
+		.button-56 {
+  align-items: center;
+  background-color: #fee6e3;
+  border: 2px solid #111;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #111;
+  cursor: pointer;
+  display: flex;
+  font-family: Inter,sans-serif;
+  font-size: 16px;
+  height: 38px;
+  justify-content: center;
+  line-height: 24px;
+  max-width: 100%;
+  padding: 0 25px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-56:after {
+  background-color: #111;
+  border-radius: 8px;
+  content: "";
+  display: block;
+  height: 38px;
+  left: 0;
+  width: 100%;
+  position: absolute;
+  top: -2px;
+  transform: translate(8px, 8px);
+  transition: transform .2s ease-out;
+  z-index: -1;
+}
+
+.button-56:hover:after {
+  transform: translate(0, 0);
+}
+
+.button-56:active {
+  background-color: #ffdeda;
+  outline: 0;
+}
+
+.button-56:hover {
+  outline: 0;
+}
+
+@media (min-width: 768px) {
+  .button-56 {
+    padding: 0 40px;
+  }
+}
+	</style>
+</head>
+
+<body>
+	<div class="logo">
+		<div><img src="/img/logo.png" style="margin-left:30px;width:60px;height: 60px;margin-top:20px"></div>
+		<div style="letter-spacing : 3px;font-size : 30px;color: white;margin: auto;">TRANG CHỦ WEBSITE QUẢN LÝ CỬA HÀNG
+			COFFEE</div>
+	</div>
+
+	<div class="info">
+		<div class="nameadmin">
+			<div style=" display: inline-flex; margin-top:5px">
+				<div style="font-size: 15px;">Xin chào :&nbsp;</div>
+				<strong th:text="${fullnamemanager}"></strong>
+
+			</div>
+			<div style="margin-top:8px" id="current-date"></div>
+		</div>
+		<div>
+
+			<a class="avata" th:href="login"><button class="btnlogout">Đăng xuất</button></a>
+		</div>
+	</div>
+
+	<div class="menu">
+		<a th:href="@{/manager}"><button class="btn">Trang chủ</button></a>
+		<a th:href="@{/manage_account}"><button class="btn">Quản lý tài khoản</button></a>
+		<a th:href="@{/manage_employee}"><button class="btn">Quản lý nhân viên</button></a>
+		<a th:href="@{/manage_coffee}"><button class="btn">Quản lý sản phẩm</button></a>
+		<a th:href="@{/stat}"><button class="btn">Báo cáo thống kê</button></a>
+	</div>
+	<hr />
+
+	<h2>Thống kê doanh thu các loại coffee</h2><br/>
+	<div style="text-align: center">
+	<span>Không có dữ liệu nào trong thời gian này</span><br/><br/><br/><br/>
+	<div style="  display: flex;
+  justify-content: center;"><button  class="button-56" onclick="history.back()">Quay lại</button><br/><div/>
+	</div>
+
+
+	<script>
+		function validateNumber(textarea) {
+			var value = textarea.value.trim();
+			var isValid = !isNaN(value) && parseFloat(value) > 0;
+
+			if (isValid) {
+				textarea.setCustomValidity('');
+				document.getElementById('price-error').style.display = 'none';
+			} else {
+				textarea.setCustomValidity('Vui lòng nhập giá trị là số dương');
+				document.getElementById('price-error').style.display = 'block';
+			}
+		}
+
+
+		// Lấy ngày hiện tại
+		var today = new Date();
+
+		// Lấy ngày, tháng, năm
+		var day = today.getDate();
+		var month = today.getMonth() + 1; // Tháng bắt đầu từ 0
+		var year = today.getFullYear();
+
+		// Đưa giá trị vào phần tử HTML
+		document.getElementById('current-date').textContent = day + '/' + month + '/' + year;
+	</script>
+
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 60%;
+			margin-left: 100px;
+		}
+
+		th,
+		td {
+			border: 1px solid black;
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: lightgray;
+		}
+	</style>
+</body>
+
+</html>
